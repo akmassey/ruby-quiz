@@ -1,0 +1,35 @@
+#! /usr/bin/env ruby -w
+
+
+require 'optparse'
+
+require_relative 'solitaire'
+
+
+OptionParser.new do |opts|
+  opts.banner = "solitaire: a simple cipher based on a deck of cards"
+  opts.define_head "Usage: solitaire [options]"
+  opts.separator ""
+  opts.separator "Examples:"
+  opts.separator "  solitaire -c 'message'"
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on("-c", "--cipher [MESSAGE]", "Encipher the message provided") do |message|
+    @input = message
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+
+  opts.on_tail("-v", "--version", "Show version") do
+    puts Solitaire::VERSION
+    exit
+  end
+end.parse!
+
+puts @input
+
+Solitaire::SolitaireCipher.new(@input)
